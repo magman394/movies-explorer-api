@@ -12,7 +12,7 @@ const {
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./middlewares/error');
 
-const { PORT = 80, BASE_PATH } = process.env;
+const { PORT = 3000, BASE_PATH } = process.env;
 const app = express();
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
