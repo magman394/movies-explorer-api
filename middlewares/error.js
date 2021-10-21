@@ -29,6 +29,20 @@ class ConflictError extends Error {
     this.statusCode = 409;
   }
 }
+
+const centralError = (err, req, res, next) => {
+  const { statusCode = 500, message } = err;
+
+  res
+    .status(statusCode)
+    .send({
+      message: statusCode === 500
+        ? 'На сервере произошла ошибка'
+        : message,
+    });
+  next();
+};
+
 module.exports = {
-  NotFoundError, NotAvtorizationError, BadRequestError, ForbiddenError, ConflictError,
+  NotFoundError, NotAvtorizationError, BadRequestError, ForbiddenError, ConflictError, centralError,
 };

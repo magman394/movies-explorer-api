@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const auth = require('./middlewares/auth');
-const { NotFoundError } = require('./middlewares/error');
+const { NotFoundError, centralError } = require('./middlewares/error');
 require('dotenv').config();
 
 const {
@@ -30,7 +30,7 @@ mongoose.connect(`mongodb://localhost:27017/${BD_NAME}`, {
 
 app.use(requestLogger);
 app.use(limiter);
-const allowlist = ['https://diplom.nomoredomains.monster', 'http://diplom.nomoredomains.monster'];
+const allowlist = ['https://diplom.nomoredomains.monster/api', 'http://diplom.nomoredomains.monster/api', 'http://localhost:3000'];
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
@@ -54,17 +54,7 @@ app.use((req, res, next) => {
 });
 app.use(errorLogger);
 app.use(errors());
-app.use((err, req, res) => {
-  const { statusCode = 500, message } = err;
-
-  res
-    .status(statusCode)
-    .send({
-      message: statusCode === 500
-        ? 'На сервере произошла ошибка'
-        : message,
-    });
-});
+app.use(centralError);
 
 app.listen(PORT, () => {
   console.log('Ссылка на сервер');

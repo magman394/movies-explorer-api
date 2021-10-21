@@ -78,7 +78,7 @@ module.exports.getme = (req, res, next) => {
       if (!users) {
         throw new NotFoundError('Нет пользователя с таким id');
       } else {
-        res.status(200).send({
+        res.send({
           name: users.name,
           email: users.email,
           _id: users._id,
