@@ -12,8 +12,8 @@ const validUrl = (value) => {
   throw new BadRequestError('можно вводить только URL');
 };
 
-router.get('/', getmovies);
-router.post('/', celebrate({
+router.get('/movies/', getmovies);
+router.post('/movies/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -23,13 +23,12 @@ router.post('/', celebrate({
     image: Joi.string().required().custom(validUrl),
     trailer: Joi.string().required().custom(validUrl),
     thumbnail: Joi.string().required().custom(validUrl),
-    owner: Joi.array().required(),
-    movieId: Joi.string().required(),
+    movieId: Joi.number().required(),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
-  }),
+  }).unknown(),
 }), createmovie);
-router.delete('/:movieId', celebrate({
+router.delete('/movies/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24).required(),
   }),

@@ -64,8 +64,8 @@ module.exports.editprofile = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'ValidationError') {
         next(new BadRequestError('Переданы некорректные данные пользователя'));
-      } else if (err.message === 'NotValidId') {
-        next(new NotFoundError('Нет пользователя с таким id'));
+      } else if (err.code === 11000) {
+        next(new ConflictError('Пользователь с такой почтой уже зарегистрирован'));
       } else {
         next(err);
       }

@@ -53,12 +53,12 @@ const movieSchema = new mongoose.Schema({
     },
   },
   owner: {
-    type: Array,
+    type: mongoose.Schema.Types.ObjectId,
     required: true,
     ref: 'owner',
   },
   movieId: {
-    type: String,
+    type: Number,
     required: true,
   },
   nameRU: {
