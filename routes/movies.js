@@ -12,8 +12,8 @@ const validUrl = (value) => {
   throw new BadRequestError('можно вводить только URL');
 };
 
-router.get('/movies/', getmovies);
-router.post('/movies/', celebrate({
+router.get('/api/movies/', getmovies);
+router.post('/api/movies/', celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
@@ -28,7 +28,7 @@ router.post('/movies/', celebrate({
     nameEN: Joi.string().required(),
   }).unknown(),
 }), createmovie);
-router.delete('/movies/:movieId', celebrate({
+router.delete('/api/movies/:movieId', celebrate({
   params: Joi.object().keys({
     movieId: Joi.string().hex().length(24).required(),
   }),

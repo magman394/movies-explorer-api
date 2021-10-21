@@ -45,7 +45,7 @@ app.options(corsOptionsDelegate, cors());
 
 app.use(require('./routes/sign'));
 
-app.use(require('./middlewares/auth'));
+app.use(auth);
 app.use(require('./routes/users'));
 app.use(require('./routes/movies'));
 
