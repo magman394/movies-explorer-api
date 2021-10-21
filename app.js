@@ -28,7 +28,7 @@ mongoose.connect(`mongodb://localhost:27017/${BD_NAME}`, {
 
 app.use(requestLogger);
 app.use(limiter);
-const allowlist = ['https://diplom.nomoredomains.monster', 'http://localhost:3001'];
+const allowlist = ['https://diplom.nomoredomains.monster', 'http://diplom.nomoredomains.monster'];
 const corsOptionsDelegate = function (req, callback) {
   let corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
