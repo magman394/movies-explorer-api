@@ -13,6 +13,8 @@ const {
   PORT = 3001, BASE_PATH, NODE_ENV, BD_NAME_ON_SERVER,
 } = process.env;
 const BD_NAME = NODE_ENV === 'production' ? BD_NAME_ON_SERVER : 'bitfilmsdb';
+console.log(process.env.BD_NAME)
+console.log(BD_NAME)
 const app = express();
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000,
