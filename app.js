@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const auth = require('./middlewares/auth');
 const { NotFoundError } = require('./middlewares/error');
+require('dotenv').config();
 
 const {
   PORT = 3001, BASE_PATH, NODE_ENV, BD_NAME_ON_SERVER,
