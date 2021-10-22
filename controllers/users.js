@@ -21,31 +21,22 @@ module.exports.login = (req, res, next) => {
     })
     .catch(next);
 };
-
 module.exports.createUser = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    .then((users) => {
-      if (users) {
-        throw new ConflictError('Пользователь с таким email уже зарегестрирован!!');
-      } else {
-        bcrypt.hash(req.body.password, 10)
-          .then((hash) => User.create({
-            name: req.body.name,
-            email: req.body.email,
-            password: hash,
-          }))
-          .then((user) => res.send(
-            {
-              name: user.name,
-              email: user.email,
-            },
-          ))
-          .catch(next);
-      }
-    })
+  bcrypt.hash(req.body.password, 10)
+    .then((hash) => User.create({
+      name: req.body.name,
+      email: req.body.email,
+      password: hash,
+    }))
+    .then((user) => res.send(
+      {
+        name: user.name,
+        email: user.email,
+      },
+    ))
     .catch((err) => {
-      if (err.name === 'ValidationError') {
-        next(new BadRequestError('Переданы некорректные данные пользователя'));
+      if (err.code === 11000) {
+        next(new ConflictError('Пользователь с таким email уже зарегестрирован!!'));
       } else {
         next(err);
       }
@@ -85,11 +76,5 @@ module.exports.getme = (req, res, next) => {
         });
       }
     })
-    .catch((err) => {
-      if (err.name === 'CastError') {
-        next(new BadRequestError('Переданы некорректные данные пользователя'));
-      } else {
-        next(err);
-      }
-    });
+    .catch(next);
 };

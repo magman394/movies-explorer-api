@@ -7,6 +7,7 @@ const { errors } = require('celebrate');
 const rateLimit = require('express-rate-limit');
 const auth = require('./middlewares/auth');
 const { NotFoundError, centralError } = require('./middlewares/error');
+const { corsOptionsDelegate } = require('./middlewares/corsoptions');
 require('dotenv').config();
 
 const {
@@ -30,16 +31,7 @@ mongoose.connect(`mongodb://localhost:27017/${BD_NAME}`, {
 
 app.use(requestLogger);
 app.use(limiter);
-const allowlist = ['https://diplom.nomoredomains.monster', 'http://diplom.nomoredomains.monster', 'http://localhost:3000'];
-const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (allowlist.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true };
-  } else {
-    corsOptions = { origin: false };
-  }
-  callback(null, corsOptions);
-};
+
 app.use(cors(corsOptionsDelegate));
 app.options(corsOptionsDelegate, cors());
 
