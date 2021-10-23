@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const validator = require('validator');
+const { linkValidator } = require('../middlewares/validator');
 
 const movieSchema = new mongoose.Schema({
   country: {
@@ -24,33 +24,18 @@ const movieSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    required: true,
-    validate: {
-      validator(str) {
-        return validator.isURL(str);
-      },
-      message: (props) => `${props.value} введен не URL на картинку`,
-    },
+    required: [true, 'Заполнитне поле с картинкой'],
+    validate: [linkValidator, 'Нужно указать ссылку на картинку'],
   },
   trailer: {
     type: String,
     required: true,
-    validate: {
-      validator(str) {
-        return validator.isURL(str);
-      },
-      message: (props) => `${props.value} введен не URL на фильм`,
-    },
+    validate: [linkValidator, 'Нужно указать ссылку на трейлер'],
   },
   thumbnail: {
     type: String,
     required: true,
-    validate: {
-      validator(str) {
-        return validator.isURL(str);
-      },
-      message: (props) => `${props.value} введен не URL на миниатюруфото`,
-    },
+    validate: [linkValidator, 'Нужно указать ссылку на миниатюру'],
   },
   owner: {
     type: mongoose.Schema.Types.ObjectId,
