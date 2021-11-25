@@ -1,4 +1,7 @@
-const allowlist = ['https://diplom.nomoredomains.monster', 'http://diplom.nomoredomains.monster', 'http://localhost:3000'];
+const allowlist = ['https://diplom.nomoredomains.monster',
+  'http://diplom.nomoredomains.monster',
+  'http://localhost:3001',
+];
 const corsOptionsDelegate = (req, callback) => {
   let corsOptions;
   if (allowlist.indexOf(req.header('Origin')) !== -1) {
