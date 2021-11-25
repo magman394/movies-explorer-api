@@ -1,4 +1,4 @@
-const { ForbiddenError, NotFoundError, BadRequestError } = require('../middlewares/error');
+const { NotFoundError, BadRequestError } = require('../middlewares/error');
 const Movie = require('../models/movie');
 
 module.exports.getmovies = (req, res, next) => {
