@@ -17,7 +17,11 @@ module.exports.login = (req, res, next) => {
       }
       const token = jwt.sign({ _id: user._id },
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
-      res.send({ token });
+      res.send({
+        name: user.name,
+        email: user.email,
+        token,
+      });
     })
     .catch(next);
 };
@@ -28,12 +32,17 @@ module.exports.createUser = (req, res, next) => {
       email: req.body.email,
       password: hash,
     }))
-    .then((user) => res.send(
-      {
-        name: user.name,
-        email: user.email,
-      },
-    ))
+    .then((user) => {
+      const token = jwt.sign({ _id: user._id },
+        NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret');
+      res.send(
+        {
+          name: user.name,
+          email: user.email,
+          token,
+        },
+      );
+    })
     .catch((err) => {
       if (err.code === 11000) {
         next(new ConflictError('Пользователь с таким email уже зарегестрирован!!'));
