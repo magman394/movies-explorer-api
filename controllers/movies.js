@@ -12,6 +12,8 @@ module.exports.deletemovie = (req, res, next) => {
   Movie.findOne({ movieId: id })
     .orFail(new NotFoundError('Такого фильма нет в избранном'))
     .then((movie) => {
+      console.log(movie.owner.toString());
+      console.log(req.user._id);
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Данного фильма нет в избранном. Удалить её нельзя');
       } else {
