@@ -15,14 +15,9 @@ module.exports.deletemovie = (req, res, next) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Данного фильма нет в избранном. Удалить её нельзя');
       } else {
-        movie.remove().then(() => res.send({ message: movie }));
+        movie.remove().then(() => res.send({ message: 'Фильм удален из избранного' }));
       }
     }).catch(next);
-//   Movie.findOne({ movieId: id })
-//     .orFail(new NotFoundError('Такого фильма нет в избранном'))
-//     .then((movie) => {
-//       movie.remove().then(() => res.send({ message: 'Фильм удален из избранного' }));
-//     }).catch(next);
 };
 
 module.exports.createmovie = (req, res, next) => {
