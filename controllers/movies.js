@@ -15,7 +15,7 @@ module.exports.deletemovie = (req, res, next) => {
       if (movie.owner.toString() !== req.user._id) {
         throw new ForbiddenError('Данного фильма нет в избранном. Удалить её нельзя');
       } else {
-        movie.remove().then(() => res.send(movie));
+        movie.remove().then(() => res.send({ message: movie }));
       }
     }).catch(next);
 };
@@ -24,7 +24,7 @@ module.exports.createmovie = (req, res, next) => {
   const owner = req.user._id;
   const {
     country, director, duration, year, description,
-    image, trailer, nameRU, nameEN, thumbnail, movieId, isLiked,
+    image, trailer, nameRU, nameEN, thumbnail, movieId,
   } = req.body;
 
   Movie.create({
@@ -40,7 +40,6 @@ module.exports.createmovie = (req, res, next) => {
     thumbnail,
     movieId,
     owner,
-    isLiked,
   })
     .then((movie) => {
       res.send({
@@ -56,7 +55,6 @@ module.exports.createmovie = (req, res, next) => {
         thumbnail: movie.thumbnail,
         movieId: movie.movieId,
         owner: movie.owner,
-        isLiked: true,
       });
     })
     .catch((err) => {
