@@ -54,6 +54,10 @@ const movieSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  isLiked: {
+    type: Boolean,
+    required: true,
+  },
 });
 
 module.exports = mongoose.model('movie', movieSchema);

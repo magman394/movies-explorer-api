@@ -24,7 +24,7 @@ module.exports.createmovie = (req, res, next) => {
   const owner = req.user._id;
   const {
     country, director, duration, year, description,
-    image, trailer, nameRU, nameEN, thumbnail, movieId,
+    image, trailer, nameRU, nameEN, thumbnail, movieId, isLiked,
   } = req.body;
 
   Movie.create({
@@ -40,6 +40,7 @@ module.exports.createmovie = (req, res, next) => {
     thumbnail,
     movieId,
     owner,
+    isLiked,
   })
     .then((movie) => {
       res.send({
@@ -55,6 +56,7 @@ module.exports.createmovie = (req, res, next) => {
         thumbnail: movie.thumbnail,
         movieId: movie.movieId,
         owner: movie.owner,
+        isLiked: true,
       });
     })
     .catch((err) => {
